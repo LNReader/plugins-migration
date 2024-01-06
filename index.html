@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./static/ico.png" type="image/x-icon">
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css">
+    <title>Migration</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="./static/ico.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                    LNReader Migration
+                </a>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid my-3">
+        <div id="plugins-loading" class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="mb-3">
+            <label for="backup-file-input" class="form-label">Choose your old backup file</label>
+            <input disabled class="form-control" type="file" id="backup-file-input">
+        </div>
+        <a href="#" id="download-btn" class="btn btn-primary disabled" type="button">Download</a>
+        <a href="#" id="unmigrated-download-btn" class="btn btn-danger d-none" type="button">Download Unmigrated Novels</a>
+    </div>
+    <script src="./static/js/bootstrap.min.js"></script>
+    <script src="./static/js/index.js"></script>
+</body>
+</html>
