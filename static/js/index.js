@@ -25,7 +25,12 @@ backupInput.addEventListener('change', (e) => {
 });
 
 function findSuitedPlugin(novel){
-    const novelSiteUrl = new URL(novel.sourceUrl);
+    let novelSiteUrl;
+    try {
+        novelSiteUrl = new URL(novel.sourceUrl);
+    } catch {
+        return undefined;
+    }
     const novelSiteDomain = novelSiteUrl.hostname.replace(/www\./, '');
     for(let lang in allPlugins){
         for (let plugin of allPlugins[lang]){
