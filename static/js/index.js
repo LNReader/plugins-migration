@@ -43,6 +43,7 @@ function findSuitedPlugin(novel){
 function migrate() {
     const migratedNovels = [];
     const unmigratedNovels = [];
+    const requiredPlugins = new Set();
     for(let oldNovel of oldNovels){
         const plugin = findSuitedPlugin(oldNovel);
         if(plugin){
@@ -60,6 +61,7 @@ function migrate() {
                 inLibrary: oldNovel.followed,
                 isLocal: 0,
             });
+            requiredPlugins.add(plugin);
         }else{
             unmigratedNovels.push(oldNovel);
         }
@@ -84,5 +86,22 @@ function migrate() {
         unmigratedBtn.download = 'unmigrated-backup.json';
         unmigratedBtn.href = window.URL.createObjectURL(unmigratedBlob);
         unmigratedBtn.classList.remove('d-none');
+    }
+    const table = document.getElementById('plugins-table-content');
+    table.innerHTML = '';
+    index = 1;
+    if(requiredPlugins.size > 0){
+        requiredPlugins.forEach((plugin) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <th scope="row">${index}</th>
+                <td>${plugin.name}</td>
+                <td>${plugin.id}</td>
+                <td><img src="${plugin.iconUrl}" width="40" height="40"></td>
+                <td>${plugin.lang}</td>
+            `
+            table.append(row);
+            index++;
+        })
     }
 }
