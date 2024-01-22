@@ -1,3 +1,28 @@
+const isUrlAbsolute = (url) => {
+    if (url) {
+      if (url.indexOf('//') === 0) {
+        return true;
+      } // URL is protocol-relative (= absolute)
+      if (url.indexOf('://') === -1) {
+        return false;
+      } // URL has no protocol (= relative)
+      if (url.indexOf('.') === -1) {
+        return false;
+      } // URL does not contain a dot, i.e. no TLD (= relative, possibly REST)
+      if (url.indexOf('/') === -1) {
+        return false;
+      } // URL does not contain a single slash (= relative)
+      if (url.indexOf(':') > url.indexOf('/')) {
+        return false;
+      } // The first colon comes after the first slash (= relative)
+      if (url.indexOf('://') < url.indexOf('.')) {
+        return true;
+      } // Protocol is defined before first dot (= absolute)
+    }
+    return false; // Anything else must be relative
+  };
+  
+
 let allPlugins = {};
 fetch('https://raw.githubusercontent.com/LNReader/lnreader-sources/plugins/.dist/LNReader/plugins.min.json')
     .then((res) => res.json())
@@ -51,10 +76,14 @@ function migrate() {
     const requiredPlugins = new Set();
     for(let oldNovel of oldNovels){
         const plugin = findSuitedPlugin(oldNovel);
+        let novelUrl = oldNovel.novelUrl;
+        if(!isUrlAbsolute(novelUrl)){
+            novelUrl = oldNovel.sourceUrl.replace(/\/$/,'') + '/' + oldNovel.novelUrl.replace(/^\//,'');
+        }
         if(plugin){
             migratedNovels.push({
                 id: oldNovel.novelId,
-                url: oldNovel.novelUrl,
+                url: novelUrl,
                 pluginId: plugin.id,
                 name: oldNovel.novelName,
                 cover: oldNovel.novelCover,
