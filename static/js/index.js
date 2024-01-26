@@ -24,7 +24,7 @@ const isUrlAbsolute = (url) => {
   
 
 let allPlugins = {};
-fetch('https://raw.githubusercontent.com/LNReader/lnreader-sources/plugins/.dist/LNReader/plugins.min.json')
+fetch('https://raw.githubusercontent.com/LNReader/lnreader-sources/dist/.dist/plugins.min.json')
     .then((res) => res.json())
     .then(data => {
         allPlugins = data;
