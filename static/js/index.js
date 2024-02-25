@@ -72,18 +72,17 @@ function findSuitedPlugin(novel){
 
 function migrate() {
     const migratedNovels = [];
-    const unmigratedNovels = [];
     const requiredPlugins = new Set();
     for(let oldNovel of oldNovels){
         const plugin = findSuitedPlugin(oldNovel);
         let novelUrl = oldNovel.novelUrl;
-        if(!isUrlAbsolute(novelUrl)){
-            novelUrl = oldNovel.sourceUrl.replace(/\/$/,'') + '/' + oldNovel.novelUrl.replace(/^\//,'');
+        if(isUrlAbsolute(novelUrl)){
+            novelUrl = oldNovel.novelUrl.replace(plugin.site, '');
         }
         if(plugin){
             migratedNovels.push({
                 id: oldNovel.novelId,
-                url: novelUrl,
+                path: novelUrl,
                 pluginId: plugin.id,
                 name: oldNovel.novelName,
                 cover: oldNovel.novelCover,
@@ -96,8 +95,6 @@ function migrate() {
                 isLocal: 0,
             });
             requiredPlugins.add(plugin);
-        }else{
-            unmigratedNovels.push(oldNovel);
         }
     }
 
@@ -112,15 +109,6 @@ function migrate() {
         migratedBtn.classList.remove('disabled');
     }
     
-
-    // the remain
-    if(unmigratedNovels.length){
-        const unmigratedBlob = new Blob([JSON.stringify(unmigratedNovels)], {type: 'application/json'});
-        const unmigratedBtn = document.querySelector('a#unmigrated-download-btn');
-        unmigratedBtn.download = 'unmigrated-backup.json';
-        unmigratedBtn.href = window.URL.createObjectURL(unmigratedBlob);
-        unmigratedBtn.classList.remove('d-none');
-    }
     const table = document.getElementById('plugins-table-content');
     table.innerHTML = '';
     index = 1;
