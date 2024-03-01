@@ -76,10 +76,10 @@ function migrate() {
     for(let oldNovel of oldNovels){
         const plugin = findSuitedPlugin(oldNovel);
         let novelUrl = oldNovel.novelUrl;
-        if(isUrlAbsolute(novelUrl)){
-            novelUrl = oldNovel.novelUrl.replace(plugin.site, '');
-        }
         if(plugin){
+            if(isUrlAbsolute(novelUrl)){
+                novelUrl = oldNovel.novelUrl.replace(plugin.site, '');
+            }
             migratedNovels.push({
                 id: oldNovel.novelId,
                 path: novelUrl,
