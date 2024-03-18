@@ -80,6 +80,9 @@ function migrate() {
             if(isUrlAbsolute(novelUrl)){
                 novelUrl = oldNovel.novelUrl.replace(plugin.site, '');
             }
+            if(plugin.id === 'boxnovel') {
+                novelUrl = 'novel/' + novelUrl + '/';
+            }
             migratedNovels.push({
                 id: oldNovel.novelId,
                 path: novelUrl,
