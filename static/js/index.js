@@ -110,6 +110,7 @@ function migrate() {
         migratedBtn.download = 'migrated-backup.json';
         migratedBtn.href = window.URL.createObjectURL(migratedBlob);
         migratedBtn.classList.remove('disabled');
+        migratedBtn.innerText = `Download (${migratedNovels.length} of ${oldNovels.length} novels   )`
     }
     
     const table = document.getElementById('plugins-table-content');
